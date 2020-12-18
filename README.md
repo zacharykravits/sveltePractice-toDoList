@@ -2,5 +2,5 @@
 
 To do list app to play with Svelte.
 
-cd sveltePractice-toDoList
+cd toDoList
 npm run dev
