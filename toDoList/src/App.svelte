@@ -3,21 +3,23 @@
 
 	// data
 	let tasks = [
-		{ id: 0, name: "example task", dueDate: new Date(), status: false },
+		{
+			id: 0,
+			name: "example task",
+			status: false,
+		},
 	];
 
 	let currentIdCount = 0;
 
-	const event_createTask = (e, enteredTaskName, enteredTaskDate) => {
+	const event_createTask = (e, enteredTaskName) => {
 		e.preventDefault();
 		//
 		console.log(enteredTaskName);
-		console.log(enteredTaskDate);
 		//
 		const taskToBePushed = new Object();
 		taskToBePushed.id = currentIdCount += 1;
 		taskToBePushed.name = enteredTaskName;
-		taskToBePushed.dueDate = enteredTaskDate;
 		taskToBePushed.status = false;
 
 		console.log(currentIdCount);
@@ -27,6 +29,12 @@
 		tasks = tasks;
 
 		console.log(tasks);
+
+		clearInput();
+	};
+
+	const clearInput = () => {
+		document.getElementById("input-task-name").value = "";
 	};
 
 	const event_changeStatus = (selectedId) => {
@@ -39,6 +47,17 @@
 			}
 		});
 	};
+
+	const event_deleteTask = (selectedTask) => {
+		console.log(selectedTask);
+
+		let desiredTaskToDelete = tasks.findIndex(
+			(item) => item.id == selectedTask.id
+		);
+
+		tasks.splice(desiredTaskToDelete, 1);
+		tasks = tasks;
+	};
 </script>
 
 <style>
@@ -47,10 +66,9 @@
 <main>
 	<form
 		on:submit={(e) => {
-			event_createTask(e, document.getElementById('input-task-name').value, document.getElementById('input-task-date').value);
+			event_createTask(e, document.getElementById('input-task-name').value);
 		}}>
 		<input id="input-task-name" type="text" required />
-		<input id="input-task-date" type="date" required />
 		<button>Create Task</button>
 	</form>
 
@@ -64,6 +82,10 @@
 					}}>
 					{#if task.status == false}mark complete{:else}completed{/if}
 				</button>
+				<button
+					on:click={() => {
+						event_deleteTask(task);
+					}}>delete</button>
 			</div>
 		{:else}
 			<div>
