@@ -151,6 +151,7 @@
 	</form>
 
 	<div class="list">
+		<h1>Tasks</h1>
 		{#each tasks as task (task.id)}
 			<div class="task">
 				<div class="task-left">
